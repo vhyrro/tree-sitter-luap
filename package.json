@@ -1,0 +1,14 @@
+{
+  "name": "tree-sitter-luap",
+  "version": "1.0.0",
+  "description": "tree-sitter parser for lua patterns",
+  "main": "bindings/node",
+  "author": "vhyrro",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "scripts": {
+    "gen": "tree-sitter generate"
+  }
+}
