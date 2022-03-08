@@ -22,6 +22,7 @@ module.exports = grammar({
                     $.class,
                     $.set,
                     $.negated_set,
+                    $.capture,
                 )
             ),
             optional($.anchor_end),
@@ -30,14 +31,14 @@ module.exports = grammar({
         anchor_begin: _ => i("^"),
         anchor_end: _ => prec(1, i("$")),
 
-        _raw_character: _ => i(/[^%\(\[\n]/),
+        _raw_character: $ => choice(i(/[^%\(\[\.\n]/), "."),
 
         character: $ => seq(
             $._raw_character,
             optional($.quantifier),
         ),
 
-        all_char: _ => i("a"),
+        all_letters_char: _ => i("a"),
         control_char: _ => i("c"),
         digit_char: _ => i("d"),
         printable_char: _ => i("g"),
@@ -55,6 +56,14 @@ module.exports = grammar({
             field("last", alias(i(/./), $.character)),
         ),
 
+        frontier_pattern: $ => seq(
+            i("%f"),
+            choice(
+                $.set,
+                $.negated_set,
+            ),
+        ),
+
         zero_or_more: _ => i("*"),
         shortest_zero_or_more: _ => i("-"),
         one_or_more: _ => i("+"),
@@ -70,7 +79,7 @@ module.exports = grammar({
         _class: $ => seq(
             i("%"),
             choice(
-                $.all_char,
+                $.all_letters_char,
                 $.control_char,
                 $.digit_char,
                 $.printable_char,
@@ -87,7 +96,7 @@ module.exports = grammar({
         ),
 
         class: $ => prec.right(seq(
-            $._class,
+            choice($._class, $.frontier_pattern),
             optional($.quantifier),
         )),
 
@@ -97,7 +106,7 @@ module.exports = grammar({
             field("to", alias(/[^\]]/, $.character)),
         )),
 
-        set: $ => seq(
+        set: $ => prec.left(seq(
             i("["),
             repeat1(
                 choice(
@@ -108,9 +117,10 @@ module.exports = grammar({
                 )
             ),
             i("]"),
-        ),
+            optional($.quantifier),
+        )),
 
-        negated_set: $ => seq(
+        negated_set: $ => prec.left(seq(
             i("[^"),
             repeat1(
                 choice(
@@ -121,6 +131,22 @@ module.exports = grammar({
                 )
             ),
             i("]"),
+            optional($.quantifier),
+        )),
+
+        capture: $ => seq(
+            i("("),
+            repeat(
+                choice(
+                    $.set,
+                    $.negated_set,
+                    $.class,
+                    $.character,
+                    $.capture,
+                ),
+            ),
+            i(")"),
+            optional($.quantifier),
         ),
     },
 })
