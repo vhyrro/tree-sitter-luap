@@ -1,5 +1,10 @@
 [
   {
+    "type": "anchor_begin",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "anchor_end",
     "named": true,
     "fields": {}
@@ -483,11 +488,11 @@
     "named": false
   },
   {
-    "type": "[^",
+    "type": "]",
     "named": false
   },
   {
-    "type": "]",
+    "type": "^",
     "named": false
   },
   {
@@ -496,10 +501,6 @@
   },
   {
     "type": "alphanumeric_char",
-    "named": true
-  },
-  {
-    "type": "anchor_begin",
     "named": true
   },
   {

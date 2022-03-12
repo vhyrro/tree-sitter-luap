@@ -512,6 +512,18 @@
                   "value": "character"
                 },
                 {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "STRING",
+                      "value": "("
+                    }
+                  },
+                  "named": true,
+                  "value": "character"
+                },
+                {
                   "type": "SYMBOL",
                   "name": "range"
                 },
@@ -554,7 +566,14 @@
             "type": "IMMEDIATE_TOKEN",
             "content": {
               "type": "STRING",
-              "value": "[^"
+              "value": "["
+            }
+          },
+          {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "^"
             }
           },
           {
@@ -574,8 +593,23 @@
                 {
                   "type": "ALIAS",
                   "content": {
-                    "type": "STRING",
-                    "value": "-"
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "STRING",
+                      "value": "-"
+                    }
+                  },
+                  "named": true,
+                  "value": "character"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "STRING",
+                      "value": "("
+                    }
                   },
                   "named": true,
                   "value": "character"

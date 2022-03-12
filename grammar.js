@@ -31,7 +31,7 @@ module.exports = grammar({
         anchor_begin: _ => i("^"),
         anchor_end: _ => prec(1, i("$")),
 
-        _raw_character: $ => choice(i(/[^%\(\[\.\n]/), "."),
+        _raw_character: _ => choice(i(/[^%\(\[\.\n]/), "."),
 
         character: $ => seq(
             $._raw_character,
@@ -112,6 +112,7 @@ module.exports = grammar({
                 choice(
                     alias($._raw_character, $.character),
                     alias(i("-"), $.character),
+                    alias(i("("), $.character),
                     $.range,
                     $._class,
                 )
@@ -121,11 +122,13 @@ module.exports = grammar({
         )),
 
         negated_set: $ => prec.left(seq(
-            i("[^"),
+            i("["),
+            i("^"),
             repeat1(
                 choice(
                     alias($._raw_character, $.character),
-                    alias("-", $.character),
+                    alias(i("-"), $.character),
+                    alias(i("("), $.character),
                     $.range,
                     $._class,
                 )
